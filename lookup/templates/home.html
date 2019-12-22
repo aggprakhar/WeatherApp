@@ -19,7 +19,12 @@
     <p class="lead">Current temperature in {{api.name}} is {{api.main.temp}} F and it feels like {{api.main.feels_like}} F with wind blowing at the speed of {{api.wind.speed}} mph.</p>
     <hr class="my-4">
     <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    <a class="btn btn-primary btn-lg" href="{% url 'forecast' %}" role="button">5 day forecast</a>
+    <a class="btn btn-primary btn-lg" method="POST" href="{% url 'forecast' %}" role="button">5 day forecast</a>
+    <a class="btn btn-primary" href="#" role="button">Link</a>
+    <button class="btn btn-primary" type="submit">Button</button>
+    <input class="btn btn-primary" type="button" value={{api.name}}>
+    <input class="btn btn-primary" type="submit" value="Submit">
+    <input class="btn btn-primary" type="reset" value="Reset">
   </div>
       Condition: {{ api.weather.0.main }}
       <br/>
