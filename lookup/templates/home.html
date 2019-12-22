@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br/>
+{% if city %}
+  {{ city }}
+{% endif %}
+
+
+{% if api %}
+
+  {% if api == "Error..." %}
+      There was an error, please try again
+  {% else %}
+
+  <div class="jumbotron">
+    <h1 class="display-4">{{ api.weather.0.main }}</h1>
+    <p class="lead">Current temperature in {{api.name}} is {{api.main.temp}} F and it feels like {{api.main.feels_like}} F with wind blowing at the speed of {{api.wind.speed}} mph.</p>
+    <hr class="my-4">
+    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'forecast' %}" role="button">5 day forecast</a>
+  </div>
+      Condition: {{ api.weather.0.main }}
+      <br/>
+      Temperature: {{api.main.temp}} F
+      <br/>
+      Feels like: {{api.main.feels_like}} F
+      <br/>
+      Wind Speed: {{api.wind.speed}} mph
+      <br/>
+      City: {{api.name}}
+
+  {% endif %}
+{% endif %}
+
+
+
+
+
+
+
+{% endblock %}
