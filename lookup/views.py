@@ -1,6 +1,31 @@
 from django.shortcuts import render
 import requests
 import json
+from pyowm import OWM
+
+
+API_key = '1b8c2e3db4fdf2f2d2655492e3f4fed7'
+
+owm = OWM(API_key)
+
+def weather_data(request):
+
+
+    observation = owm.weather_at_place('London')
+    w = observation.get_weather()
+    l = observation.get_location()
+    wind = w.get_wind()
+    temperature = w.get_temperature()
+    lon = l.get_lon()
+    lat = l.get_lat()
+    return render(request, 'about.html', {'wind' : wind, 'temperature' : temperature, 'lon': lon, 'lat' : lat})
+
+def input(request):
+
+    if request.method == "POST":
+        city = request.POST['city']
+
+    return city
 
 
 # Create your views here.
