@@ -9,6 +9,16 @@
 {{lon}}<br/>
 
 {{lat}}
+<br/>
+
+
+
+<form action="{% url 'maps' %}" method="post">
+    {% csrf_token %}
+    <label for="city_name">City name: </label>
+    <input id="city_name" type="text" name="city_name">
+    <input type="submit" value="OK">
+</form>
 
 
 
