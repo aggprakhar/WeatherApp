@@ -101,22 +101,30 @@ def forecast(request):
         api_request = requests.get('http://api.openweathermap.org/data/2.5/forecast?q=+' + city + '&units=imperial&appid=bbe74166a0b2e5eda72860dbfaed3227')
         try:
             api = json.loads(api_request.content)
+            fc = owm.three_hours_forecast(city)
+            rain = str(fc.will_have_rain())
+            snow = str(fc.will_have_snow())
+
+
 
         except Exception as e:
 
             api = "Error..."
-        return render(request, 'forecast.html', {'api' : api})
+        return render(request, 'forecast.html', {'api' : api, 'rain' : rain, 'snow' : snow})
     else:
 
 
         api_request = requests.get('http://api.openweathermap.org/data/2.5/forecast?q=Las Vegas&units=imperial&appid=bbe74166a0b2e5eda72860dbfaed3227')
         try:
             api = json.loads(api_request.content)
+            fc = owm.three_hours_forecast('Las Vegas')
+            rain = str(fc.will_have_rain())
+            snow = str(fc.will_have_snow())
 
         except Exception as e:
 
             api = "Error..."
-        return render(request, 'forecast.html', {'api' : api})
+        return render(request, 'forecast.html', {'api' : api, 'rain' : rain, 'snow' : snow})
 
 def index(request):
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=bbe74166a0b2e5eda72860dbfaed3227'
@@ -125,6 +133,7 @@ def index(request):
     if request.method =='POST':
         form = CityForm(request.POST)
         form.save()
+
 
     form = CityForm()
     weather_data = []

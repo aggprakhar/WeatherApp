@@ -13,28 +13,43 @@
   {% if api == "Error..." %}
       There was an error, please try again
   {% else %}
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>What's the weather like?</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+  </head>
 
   <div class="jumbotron">
     <h1 class="display-4">{{ api.weather.0.main }}</h1>
-    <p class="lead">Current temperature in {{api.name}} is {{api.main.temp}} F and it feels like {{api.main.feels_like}} F with wind blowing at the speed of {{api.wind.speed}} mph.</p>
-    <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+
+    <p class="lead">Current temperature in {{api.name}} is {{api.main.temp}}° F and it feels like {{api.main.feels_like}}° F</p>
+    </br>
+    <p>{{ api.weather.0.description }} with {{api.wind.speed}} mph wind</p>
+    </br>
     <a class="btn btn-primary btn-lg" method="POST" href="{% url 'forecast' %}" role="button">5 day forecast</a>
-    <a class="btn btn-primary" href="#" role="button">Link</a>
-    <button class="btn btn-primary" type="submit">Button</button>
-    <input class="btn btn-primary" type="button" value={{api.name}}>
-    <input class="btn btn-primary" type="submit" value="Submit">
-    <input class="btn btn-primary" type="reset" value="Reset">
+
   </div>
-      Condition: {{ api.weather.0.main }}
-      <br/>
-      Temperature: {{api.main.temp}} F
-      <br/>
-      Feels like: {{api.main.feels_like}} F
-      <br/>
-      Wind Speed: {{api.wind.speed}} mph
-      <br/>
-      City: {{api.name}}
+  <div class="box">
+      <article class="media">
+          <div class="media-left">
+              <figure class="image is-50x50">
+                  <img src="http://openweathermap.org/img/w/{{api.weather.0.icon}}.png" alt="Image">
+              </figure>
+          </div>
+          <div class="media-content">
+              <div class="content">
+                  <p>
+                      <span class="title">{{api.name}}</span>
+                      <br>
+                      <span class="subtitle">{{api.main.temp}}° F</span>
+                      <br> {{api.weather.0.description}}
+                  </p>
+              </div>
+          </div>
+      </article>
+  </div>
 
   {% endif %}
 {% endif %}

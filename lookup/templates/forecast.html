@@ -1,6 +1,60 @@
-{% extends 'base.html' %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>WeatherApp</title>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="{% url 'home' %}">Weather App</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'maps' %}">Maps</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'forecast' %}">Forecast</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}">Index</a>
+      </li>
+
+
+    </ul>
+    <form action="{% url 'forecast' %}" class="form-inline my-2 my-lg-0" method="POST">
+        {% csrf_token %}
+      <input class="form-control mr-sm-2" type="search" placeholder="Enter Forecast City" aria-label="Search" name="city">
+      <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+    <br/>
+    <div class="container">
 
 {% block content %}
+{% if rain % }
+  {% if rain = 'True'}
+
+  <div class="alert alert-info" role="alert">
+    This is a info {{rain}} alert—check it out {{snow}}!
+  </div>
+
+
+
+<h2>5 day / 3 hour forecast for {{api.city.name}} </h2>
 
 <table class="table">
   <thead class="thead-dark">
@@ -96,12 +150,6 @@
       <td>{{api.list.13.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
-    </tr>
-    <tr>
       <th scope="row">{{ api.list.14.dt_txt}}</th>
       <td>{{api.list.14.main.temp}} F</td>
       <td>{{api.list.14.weather.0.main}}</td>
@@ -112,153 +160,155 @@
       <td>{{api.list.15.main.temp}} F</td>
       <td>{{api.list.15.weather.0.main}}</td>
       <td>{{api.list.15.main.humidity}} %</td>
-    </tr><tr>
+    </tr>
+    <tr>
       <th scope="row">{{ api.list.16.dt_txt}}</th>
       <td>{{api.list.16.main.temp}} F</td>
       <td>{{api.list.16.weather.0.main}}</td>
       <td>{{api.list.16.main.humidity}} %</td>
+    </tr><tr>
+      <th scope="row">{{ api.list.17.dt_txt}}</th>
+      <td>{{api.list.17.main.temp}} F</td>
+      <td>{{api.list.17.weather.0.main}}</td>
+      <td>{{api.list.17.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.18.dt_txt}}</th>
+      <td>{{api.list.18.main.temp}} F</td>
+      <td>{{api.list.18.weather.0.main}}</td>
+      <td>{{api.list.18.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.19.dt_txt}}</th>
+      <td>{{api.list.19.main.temp}} F</td>
+      <td>{{api.list.19.weather.0.main}}</td>
+      <td>{{api.list.19.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.20.dt_txt}}</th>
+      <td>{{api.list.20.main.temp}} F</td>
+      <td>{{api.list.20.weather.0.main}}</td>
+      <td>{{api.list.20.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.21.dt_txt}}</th>
+      <td>{{api.list.21.main.temp}} F</td>
+      <td>{{api.list.21.weather.0.main}}</td>
+      <td>{{api.list.21.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.22.dt_txt}}</th>
+      <td>{{api.list.22.main.temp}} F</td>
+      <td>{{api.list.22.weather.0.main}}</td>
+      <td>{{api.list.22.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.23.dt_txt}}</th>
+      <td>{{api.list.23.main.temp}} F</td>
+      <td>{{api.list.23.weather.0.main}}</td>
+      <td>{{api.list.23.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.24.dt_txt}}</th>
+      <td>{{api.list.24.main.temp}} F</td>
+      <td>{{api.list.24.weather.0.main}}</td>
+      <td>{{api.list.24.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.25.dt_txt}}</th>
+      <td>{{api.list.25.main.temp}} F</td>
+      <td>{{api.list.25.weather.0.main}}</td>
+      <td>{{api.list.25.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.26.dt_txt}}</th>
+      <td>{{api.list.26.main.temp}} F</td>
+      <td>{{api.list.26.weather.0.main}}</td>
+      <td>{{api.list.26.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.27.dt_txt}}</th>
+      <td>{{api.list.27.main.temp}} F</td>
+      <td>{{api.list.27.weather.0.main}}</td>
+      <td>{{api.list.27.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.28.dt_txt}}</th>
+      <td>{{api.list.28.main.temp}} F</td>
+      <td>{{api.list.28.weather.0.main}}</td>
+      <td>{{api.list.28.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.29.dt_txt}}</th>
+      <td>{{api.list.29.main.temp}} F</td>
+      <td>{{api.list.29.weather.0.main}}</td>
+      <td>{{api.list.29.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.30.dt_txt}}</th>
+      <td>{{api.list.30.main.temp}} F</td>
+      <td>{{api.list.30.weather.0.main}}</td>
+      <td>{{api.list.30.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.31.dt_txt}}</th>
+      <td>{{api.list.31.main.temp}} F</td>
+      <td>{{api.list.31.weather.0.main}}</td>
+      <td>{{api.list.31.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.32.dt_txt}}</th>
+      <td>{{api.list.32.main.temp}} F</td>
+      <td>{{api.list.32.weather.0.main}}</td>
+      <td>{{api.list.32.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.33.dt_txt}}</th>
+      <td>{{api.list.33.main.temp}} F</td>
+      <td>{{api.list.33.weather.0.main}}</td>
+      <td>{{api.list.33.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.34.dt_txt}}</th>
+      <td>{{api.list.34.main.temp}} F</td>
+      <td>{{api.list.34.weather.0.main}}</td>
+      <td>{{api.list.34.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.35.dt_txt}}</th>
+      <td>{{api.list.35.main.temp}} F</td>
+      <td>{{api.list.35.weather.0.main}}</td>
+      <td>{{api.list.35.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.36.dt_txt}}</th>
+      <td>{{api.list.36.main.temp}} F</td>
+      <td>{{api.list.36.weather.0.main}}</td>
+      <td>{{api.list.36.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.37.dt_txt}}</th>
+      <td>{{api.list.37.main.temp}} F</td>
+      <td>{{api.list.37.weather.0.main}}</td>
+      <td>{{api.list.37.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.38.dt_txt}}</th>
+      <td>{{api.list.38.main.temp}} F</td>
+      <td>{{api.list.38.weather.0.main}}</td>
+      <td>{{api.list.38.main.humidity}} %</td>
     </tr>
     <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
+      <th scope="row">{{ api.list.39.dt_txt}}</th>
+      <td>{{api.list.39.main.temp}} F</td>
+      <td>{{api.list.39.weather.0.main}}</td>
+      <td>{{api.list.39.main.humidity}} %</td>
     </tr>
-    <tr>
-      <th scope="row">{{ api.list.0.dt_txt}}</th>
-      <td>{{api.list.0.main.temp}} F</td>
-      <td>{{api.list.0.weather.0.main}}</td>
-      <td>{{api.list.0.main.humidity}} %</td>
-    </tr>
+    
 
   </tbody>
 </table>
+
 
 {{ api.list.0 }}
 {% endblock %}
