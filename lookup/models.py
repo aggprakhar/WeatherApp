@@ -9,3 +9,14 @@ class City(models.Model):
 
     class Meta: #show the plural of city as cities instead of citys
         verbose_name_plural = 'cities'
+
+class WeatherData(models.Model):
+
+    city = models.CharField(max_length=25)
+    temperature = models.DecimalField(max_digits = 6, decimal_places=2)
+    description = models.CharField(max_length=30)
+    datetime = models.DateTimeField('weather date / time', null=True)
+
+
+    def __str__(self): #show the actual city name on the dashboard
+        return self.city

@@ -5,7 +5,9 @@ from pyowm import OWM
 from pyowm.tiles.enums import MapLayerEnum
 from django.http import HttpResponseRedirect
 from .forms import CityForm
-from .models import City
+from .models import City, WeatherData
+import datetime
+
 
 
 
@@ -73,8 +75,11 @@ def home(request):
     if request.method == "POST":
         city = request.POST['city']
         api_request = requests.get('http://api.openweathermap.org/data/2.5/weather?q=+' + city + '&units=imperial&appid=bbe74166a0b2e5eda72860dbfaed3227')
+        WeatherData.objects.all()
         try:
             api = json.loads(api_request.content)
+            q = WeatherData(city = request.POST['city'])
+            q.save()
 
         except Exception as e:
 
@@ -99,18 +104,26 @@ def forecast(request):
     if request.method == "POST":
         city = request.POST['city']
         api_request = requests.get('http://api.openweathermap.org/data/2.5/forecast?q=+' + city + '&units=imperial&appid=bbe74166a0b2e5eda72860dbfaed3227')
+        WeatherData.objects.all()
         try:
             api = json.loads(api_request.content)
             fc = owm.three_hours_forecast(city)
             rain = str(fc.will_have_rain())
             snow = str(fc.will_have_snow())
 
+            q = WeatherData(city = api['city']['name'],  temperature = api['list'][0]['main']['temp'],
+            description = api['list'][0]['weather'][0]['main'], datetime = datetime(api['list'][0]['dt']))
+            #q = WeatherData(city = api['city']['name'],  temperature = api['list'][0]['main']['temp'],
+            #description = api['list'][0]['weather'][0]['main'], datetime = datetime(api['list'][0]['dt']))
+            q.save()
+
+
 
 
         except Exception as e:
 
             api = "Error..."
-        return render(request, 'forecast.html', {'api' : api, 'rain' : rain, 'snow' : snow})
+        return render(request, 'forecast.html', {'api' : api, 'rain' : rain, 'snow' : snow,})
     else:
 
 
