@@ -29,7 +29,7 @@
         <a class="nav-link" href="{% url 'forecast' %}">Forecast</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'index' %}">Index</a>
+        <a class="nav-link" href="{% url 'index' %}">Cities</a>
       </li>
 
 
@@ -45,12 +45,7 @@
     <div class="container">
 
 {% block content %}
-{% if rain % }
-  {% if rain = 'True'}
 
-  <div class="alert alert-info" role="alert">
-    This is a info {{rain}} alert—check it out {{snow}}!
-  </div>
 
 
 
@@ -304,11 +299,11 @@
       <td>{{api.list.39.weather.0.main}}</td>
       <td>{{api.list.39.main.humidity}} %</td>
     </tr>
-    
+
 
   </tbody>
 </table>
 
 
-{{ api.list.0 }}
+
 {% endblock %}

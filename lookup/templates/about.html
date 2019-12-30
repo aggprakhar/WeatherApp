@@ -10,6 +10,11 @@
     <title>WeatherApp</title>
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>What's the weather like?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
     </head>
 
 
@@ -33,14 +38,14 @@
         <a class="nav-link" href="{% url 'forecast' %}">Forecast</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'index' %}">Index</a>
+        <a class="nav-link" href="{% url 'index' %}">Cities</a>
       </li>
 
 
     </ul>
     <form action="{% url 'maps' %}" class="form-inline my-2 my-lg-0" method="POST">
         {% csrf_token %}
-      <input class="form-control mr-sm-2" type="search" placeholder="Enter Forecast City" aria-label="Search" name="city_name">
+      <input class="form-control mr-sm-2" type="search" placeholder="Enter City" aria-label="Search" name="city_name">
       <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
@@ -51,10 +56,31 @@
 
 
 {% block content %}
+<br/>
 
+<div class="box">
+    <article class="media">
+        <div class="media-left">
+            <figure class="image is-50x50">
+                <img src="http://openweathermap.org/img/w/{{api.weather.0.icon}}.png" alt="Image">
+            </figure>
+        </div>
+        <div class="media-content">
+            <div class="content">
+                <p>
+                    <span class="title">{{api.name}}</span>
+                    <br>
+                    <span class="subtitle">{{api.main.temp}}° F</span>
+                    <br> {{api.weather.0.description}}
+                </p>
+            </div>
+        </div>
+    </article>
+</div>
+<br/>
 <div class="container">
 
-  <div id='map' style='width: 1000px; height: 600px;'></div>
+  <div id='map' style='width: 1200px; height: 600px;'></div>
   <script>
   mapboxgl.accessToken = 'pk.eyJ1IjoicHJha2hhcjEzIiwiYSI6ImNrNHJ3ODdxZjEzaHkzbWwxM3h2MGozcnIifQ.3ByFVejM5A80LHcUFZwliA';
   var map = new mapboxgl.Map({
@@ -64,28 +90,14 @@
   zoom: 9
   });
   </script>
-{{wind}}
-{{temperature}}
 <br/>
-{{lon}}<br/>
-
-{{lat}}
 <br/>
 
 
 
 
-<img src="{{post.cover.url}}" class="img-fluid" alt="Responsive image">
 
 
-
-
-<form action="{% url 'maps' %}" method="post">
-    {% csrf_token %}
-    <label for="city_name">City name: </label>
-    <input id="city_name" type="text" name="city_name">
-    <input type="submit" value="OK">
-</form>
 
 
 

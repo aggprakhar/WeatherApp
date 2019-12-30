@@ -21,10 +21,11 @@ def weather_data(request):
         #form = CityForm(request.POST)
         city_name = request.POST['city_name']
         observation = owm.weather_at_place(city_name)
+        api_request = requests.get('http://api.openweathermap.org/data/2.5/weather?q=+' + city_name + '&units=imperial&appid=bbe74166a0b2e5eda72860dbfaed3227')
         #Post.objects.all()
         mapbox_access_token = 'pk.eyJ1IjoicHJha2hhcjEzIiwiYSI6ImNrNHJ3ODdxZjEzaHkzbWwxM3h2MGozcnIifQ.3ByFVejM5A80LHcUFZwliA'
         try:
-
+            api = json.loads(api_request.content)
             from pyowm.utils.geo import Point
             from pyowm.commons.tile import Tile
             #city_name = 'London'
@@ -49,12 +50,15 @@ def weather_data(request):
 
         except Exception as e:
             wind = 'Error...'
-        return render(request, 'about.html', {'wind' : wind, 'mapbox_access_token' : mapbox_access_token, 'lon' : lon, 'lat' : lat})
+        return render(request, 'about.html', {'wind' : wind, 'mapbox_access_token' : mapbox_access_token, 'lon' : lon, 'lat' : lat, 'api' : api})
 
     else:
+        api_request = requests.get('http://api.openweathermap.org/data/2.5/weather?q=+Las Vegas&units=imperial&appid=bbe74166a0b2e5eda72860dbfaed3227')
         observation = owm.weather_at_place('Las Vegas')
-        try:
+        mapbox_access_token = 'pk.eyJ1IjoicHJha2hhcjEzIiwiYSI6ImNrNHJ3ODdxZjEzaHkzbWwxM3h2MGozcnIifQ.3ByFVejM5A80LHcUFZwliA'
 
+        try:
+            api = json.loads(api_request.content)
             fc = owm.three_hours_forecast('Las Vegas')
             f = fc.get_forecast()
             lst = list(f.get_weathers())
@@ -67,7 +71,7 @@ def weather_data(request):
 
         except Exception as e:
             wind = 'Error...'
-        return render(request, 'about.html', {'wind' : wind})
+        return render(request, 'about.html', {'wind' : wind, 'mapbox_access_token' : mapbox_access_token, 'lon' : lon, 'lat' : lat, 'api' : api})
 
 
 def input(request):
