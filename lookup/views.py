@@ -5,7 +5,7 @@ from pyowm import OWM
 from pyowm.tiles.enums import MapLayerEnum
 from django.http import HttpResponseRedirect
 from .forms import CityForm
-from .models import City, WeatherData
+from .models import City, WeatherData, Post
 import datetime
 
 
@@ -21,8 +21,14 @@ def weather_data(request):
         #form = CityForm(request.POST)
         city_name = request.POST['city_name']
         observation = owm.weather_at_place(city_name)
+        #Post.objects.all()
+        mapbox_access_token = 'pk.eyJ1IjoicHJha2hhcjEzIiwiYSI6ImNrNHJ3ODdxZjEzaHkzbWwxM3h2MGozcnIifQ.3ByFVejM5A80LHcUFZwliA'
         try:
 
+            from pyowm.utils.geo import Point
+            from pyowm.commons.tile import Tile
+            #city_name = 'London'
+            observation = owm.weather_at_place(city_name)
             fc = owm.three_hours_forecast(city_name)
             f = fc.get_forecast()
             lst = list(f.get_weathers())
@@ -34,12 +40,16 @@ def weather_data(request):
             lat = l.get_lat()
             layer_name = MapLayerEnum.TEMPERATURE
             tm = owm.tile_manager(layer_name)
-            tile = tm.get_tile(lon, lat, 6)
-            #tile.persist('/User/prakharaggarwal/Desktop/Courses/weather_api/openweathermap/djangoweather/weatherapp/media/' + city_name + '.png')
+            geopoint = Point(lon, lat)
+            x_tile, y_tile = Tile.tile_coords_for_point(geopoint, 0)
+            tile = tm.get_tile(x_tile, y_tile, 2)
+            tile.persist('/Users/prakharaggarwal/Desktop/Courses/weather_api/openweathermap/djangoweather/weatherapp/media/' + city_name + '.png')
+            #p = Post(title = city_name, cover=tile)
+            #p.save()
 
         except Exception as e:
             wind = 'Error...'
-        return render(request, 'about.html', {'wind' : wind})
+        return render(request, 'about.html', {'wind' : wind, 'mapbox_access_token' : mapbox_access_token, 'lon' : lon, 'lat' : lat})
 
     else:
         observation = owm.weather_at_place('Las Vegas')
@@ -98,24 +108,54 @@ def home(request):
         return render(request, 'home.html', {'api' : api})
 
 def about(request):
-    return render(request, 'about.html', {})
+    from pyowm.utils.geo import Point
+    from pyowm.commons.tile import Tile
+
+
+    city_name = 'London'
+    observation = owm.weather_at_place(city_name)
+    fc = owm.three_hours_forecast(city_name)
+    f = fc.get_forecast()
+    lst = list(f.get_weathers())
+    w = observation.get_weather()
+    l = observation.get_location()
+    wind = w.get_wind()
+    temperature = w.get_temperature()
+    lon = l.get_lon()
+    lat = l.get_lat()
+    layer_name = MapLayerEnum.TEMPERATURE
+    tm = owm.tile_manager(layer_name)
+    geopoint = Point(lon, lat)
+    x_tile, y_tile = Tile.tile_coords_for_point(geopoint, 7)
+    tile = tm.get_tile(x_tile, y_tile, 6)
+    tile.persist('/Users/prakharaggarwal/Desktop/Courses/weather_api/openweathermap/djangoweather/weatherapp/media/' + city_name + '.png')
+    #Post.objects.all()
+    #m = Post(title = 'city_name', cover = 'tile')
+    #m.save()
+
+    return render('about.html', {'wind' : wind})
 
 def forecast(request):
     if request.method == "POST":
         city = request.POST['city']
         api_request = requests.get('http://api.openweathermap.org/data/2.5/forecast?q=+' + city + '&units=imperial&appid=bbe74166a0b2e5eda72860dbfaed3227')
-        WeatherData.objects.all()
+        #WeatherData.objects.all()
         try:
             api = json.loads(api_request.content)
+            #data = api.json()
             fc = owm.three_hours_forecast(city)
+            #city_name = api.get(['city']['name'])
+            #temperature = api.get(['list'][0]['main']['temp'])
+            #description = api.get(['list'][0]['weather'][0]['main'])
+            #datetime = api.get(datetime(['list'][0]['dt']))
             rain = str(fc.will_have_rain())
             snow = str(fc.will_have_snow())
 
-            q = WeatherData(city = api['city']['name'],  temperature = api['list'][0]['main']['temp'],
-            description = api['list'][0]['weather'][0]['main'], datetime = datetime(api['list'][0]['dt']))
-            #q = WeatherData(city = api['city']['name'],  temperature = api['list'][0]['main']['temp'],
-            #description = api['list'][0]['weather'][0]['main'], datetime = datetime(api['list'][0]['dt']))
-            q.save()
+            #q = WeatherData(city = city_name,  temperature = temperature,
+            #description = description, datetime = datetime)
+            #q = WeatherData(city = data['city']['name'],  temperature = data['list'][0]['main']['temp'],
+            #description = data['list'][0]['weather'][0]['main'], datetime = api['list'][0]['dt_txt'])
+            #q.save()
 
 
 
@@ -123,7 +163,7 @@ def forecast(request):
         except Exception as e:
 
             api = "Error..."
-        return render(request, 'forecast.html', {'api' : api, 'rain' : rain, 'snow' : snow,})
+        return render(request, 'forecast.html', {'api' : api, 'rain' : rain, 'snow' : snow})
     else:
 
 

@@ -15,12 +15,19 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#mapboxgl.accessToken = 'pk.eyJ1IjoicHJha2hhcjEzIiwiYSI6ImNrNHJ3ODdxZjEzaHkzbWwxM3h2MGozcnIifQ.3ByFVejM5A80LHcUFZwliA';
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '&ppi6++5()7qfdji6o#3tj)9vqj)$5d_g@grrgh(xjlje2&e16'
+
+#EASY_MAPS_GOOGLE_KEY = 'AIzaSyAwJ9ICAPF_u0ssNS9-Nwp55SO3ISlZZVs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

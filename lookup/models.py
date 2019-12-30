@@ -20,3 +20,10 @@ class WeatherData(models.Model):
 
     def __str__(self): #show the actual city name on the dashboard
         return self.city
+
+class Post(models.Model):
+    title = models.TextField()
+    cover = models.ImageField(upload_to='media/')
+
+    def __str__(self):
+        return self.title
